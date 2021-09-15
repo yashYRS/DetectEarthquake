@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    <!-- Prism CSS -->
+    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript for Materialize CSS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Logo</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="../admin">Admin</a></li>
+                <li><a href="visualize">Visualize</a></li>
+                <li><a href="#">Analyze</a></li>
+            </ul>
+        </div>
+    </nav>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            <h5 class="mt-5">Earthquake detection system</h5>
+        </div>
+    </div>
+</div>
+    <div class="row">
+        <div class="col s10 m5">
+            <div class="card blue-grey darken-1">
+                <form action="" method="POST">{% csrf_token %}
+                <div class="card-content white-text">
+                    <span class="card-title"><b>Detect Disturbance in Feed</b></span>
+                    <p> In almost every video, a static object can always be found, examples of 
+                    which are poles, roads and traffic lights. However, if the position of such 
+                    static objects change, it signals that either someone/something is tampering
+                    with the feed, and we issue a warning on detecting such occurences. </p>
+                    <input type="text" name="title" placeholder="Enter Video Title here"><br>
+                    <input type="file" name="video" style="background-color:#3c3e42; color:white" accept="video/*">
+                </div>
+                <div class="card-action">
+                    <button style="background-color:#3c3e42; color:white" class="btn btn-outline-info" type="submit">
+                        UPLOAD VIDEO & START ANALYSIS 
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s10 m5">
+            <div class="card blue-grey darken-1">
+                <form action="" method="POST">{% csrf_token %}
+                <div class="card-content white-text">
+                    <span class="card-title"><b>Record Animal Entry & Exit</b></span>
+                    <p>It has been theorized that animals get very restless, when they sense an
+                    impending earthquake, and hence the idea was to record the entry and exit of 
+                    animals in local zoos, and use the anomaly in the entry and exit patterns 
+                    in case of animals, to issue a sign of warning of earthquakes.</p>
+                    <input type="text" name="title" placeholder="Enter Video Title here"><br>
+                    <input type="file" name="video" style="background-color:#3c3e42; color:white" accept="video/*">
+                </div>
+                <div class="card-action">
+                    <button style="background-color:#3c3e42; color:white" class="btn btn-outline-info" type="submit">
+                        UPLOAD VIDEO & START ANALYSIS 
+                    </button>
+                    <button style="background-color:#3c3e42; color:white" class="btn btn-outline-info" type="submit">
+                        START WEBCAM & START ANALYSIS
+                    </button>
+
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

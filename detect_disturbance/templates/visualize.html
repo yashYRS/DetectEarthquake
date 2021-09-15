@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    <!-- Prism CSS -->
+    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript for Materialize CSS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Logo</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="../../admin">Admin</a></li>
+                <li><a href="#">Visualize</a></li>
+                <li><a href="../">Analyze</a></li>
+            </ul>
+        </div>
+    </nav>
+	<div class="container">
+	    <div class="row">
+	        <div class="col-lg-8  offset-lg-2">
+	            <h5 class="mt-5">Upload History</h5>
+	        </div>
+	    </div>
+	</div>
+	<div>
+
+	{% for video in videos %}
+	<video width="500" height="500" controls >
+	<source src="{{video.video.url}}" type="video/mp4">
+	<b>{{video.title}}</b>
+	</video>
+	{% endfor %}
+
+	</div>
+
+</body>
+</html>

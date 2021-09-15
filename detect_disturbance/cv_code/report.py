@@ -4,7 +4,7 @@ import sqlite3
 import numpy as np
 from datetime import datetime
 conn = sqlite3.connect("Database.db")
-dataframe = pd.read_sql_query("SELECT * from Database", conn, index_col = 'ID')
+dataframe = pd.read_sql_query("SELECT * from Database", conn, index_col='ID')
 conn.close()
 
 # print(dataframe)
@@ -21,11 +21,13 @@ for i in range(0, len(entry_time_temp)):
     entry_time.append(datetime.strptime(entry_time_temp.iloc[i], '%Y-%m-%d %H:%M:%S.%f'))
     exit_time.append(datetime.strptime(exit_time_temp.iloc[i], '%Y-%m-%d %H:%M:%S.%f'))
 
+
 def time_diff(entry_time, exit_time):
     elapsedTime = exit_time - entry_time
     elapsedTime = divmod(elapsedTime.total_seconds(), 60)
     # print(elapsedTime)
     return elapsedTime
+
 
 for i in range(0, len(entry_time)):
     entries.append(i)
