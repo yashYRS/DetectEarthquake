@@ -42,11 +42,12 @@ Another experimental feature of this prototype was to predict earthquakes based 
 
 All the functionality provided, that runs on uploaded videos is meant to serve as a proxy, and would have actually run on a live security camera feed.
 
-#### To Monitor movement of animals known to react before earthquakes
+#### View of the Overall Page
+<img src = "Images/overall.png"/>
 
-Since in most cases of animals being monitored in a controlled environment, the number of such animals appearing in a camera frame is pretty constant. The entry and exit of any moving object is tracked, and severe anomalies are used as indications for a impending disaster.
-<img src = "Images/entry_exit.png" />
-   
+#### History of all Videos Analyzed
+<img src = "Images/video_library.png"/>
+
 #### To detect disturbances in videos
 
 In almost every video, a static object can always be found, examples of 
@@ -54,18 +55,19 @@ which are poles, roads and traffic lights. However, if the position of such
 static objects change, it signals that either someone/something is tampering
 with the feed, and we issue a warning on detecting such occurences.
 
+##### Example of a Disaster Ping
+<img src = "Images/ping_example.png"/>
+
+##### GUI where video needs to be uploaded for analysis
 <img src = "Images/direct_disturbance.png"/>
 
 
-#### View of the Overall Page
+#### To Monitor movement of animals known to react before earthquakes
 
-<img src = "Images/overall.png"/>
+Since in most cases of animals being monitored in a controlled environment, the number of such animals appearing in a camera frame is pretty constant. The entry and exit of any moving object is tracked, and severe anomalies are used as indications for a impending disaster.
+##### GUI supports WebCam for quick testing & normal video upload
+<img src = "Images/entry_exit.png" />
+   
 
 
-#### Example of a Disaster Ping
 
-<img src = ""/>
-
-#### History of all Videos Analyzed
-
-<img src = "Images/video_library.png"/>
