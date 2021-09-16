@@ -1,24 +1,71 @@
-# Code_Fun_Do_PlusPlus
-The Challenge - Predict,Detect or Manage Natural Disasters
+## Prototype for Detecting Earthquakes at the earliest
+We developed this prototype while participating in Microsoft's CodeFunDo++ organised in October 2018.
 
-Stark101's Proposal:
+### Motivation
+It takes considerable amount of time (as much as 20 minutes) for the disaster management authorities to be notified about any natural disaster that might have taken place [example](https://www.usgs.gov/faqs/how-fast-does-earthquake-information-get-posted-web-site-get-sent-out-earthquake-notification?qt-news_science_products=0#qt-news_science_products).
 
-Usually, it takes a lot of time for the disaster management authorities to be notified about any natural disaster that might have taken place. 
+Our solution involved, using the live feed provided by the government owned surveilance tools (cameras/satelite data) to periodically scanned them frame by frame. The frames captured are checked for any anomalies. If any serious event is detected, the concerned authorities are immediately pinged to look into the situation, and take the required action. Since this is done periodically (say every 30 seconds), the communication gap is bridged between the concerned authorities and the line of action and quick relief can be brought to the affected area.
 
-For example: https://www.usgs.gov/faqs/how-fast-does-earthquake-information-get-posted-web-site-get-sent-out-earthquake-notification?qt-news_science_products=0#qt-news_science_products
-suggests that it might take upto 20 minutes in some areas to know whether there has been an earthquaqe in that part of the world. In this project we aim to provide a solution to the same.
+Another experimental feature of this prototype was to predict earthquakes based on a long standing theory, that animals can often times sense an impending disaster, and start getting fidgety hours before the actual calamity. This is done by capturing animal movements in a zoo/ safari, wherever their movements can be tracked. We track their usual entry and exit from frames and store this information into a database. This data is analysed to observe anomalies and give the concerned authorities time to inform and prepare the public about the for a natural disaster.
 
-The live feed provided by the government owned surveilance tools (cameras/satelite data) are periodically scanned frame wise. The frames captured are checked for any anomalies. If any serious event is detected, the concerned authorities are immediately pinged to look into the situation, and take the required action.
 
-Since this is done periodically (say every 30 seconds), the communication gap is bridged between the concerned authorities and the line of action and quick relief can be brought to the affected area.
+## Installation
 
-The second feature of our project is to Predict Natural Disasters. This is done by capturing animal movements in a zoo as it is common knowledge that animals have a tendency to show erratic behaviour a few days before a calamity. This is done through live cctv surveilance of animals in zoos in terms of them coming in and out of their respective caves and then storing that information into a database. This data is analysed to observe anomalies and give the concerned authorities time to inform and prepare the public about the for a natural disaster.
+1. Clone the repo
+   ```sh
+   git clone https://github.com/yashYRS/DetectEarthquake
+   ```
+2. Install virtualenv
+   ```sh
+   python3 -m pip install --user virtualenv
+   ```
+3. Make a virtual Environnment and activate it
+   ```sh
+   virtualenv /path_to_env
+   source /path_to_env/bin/activate
+   ```
+5. Install the requirements
+   ```sh
+   pip install -r requirements.txt 
+   ```
+6. Make migrations, and run migrate to build a database locally
+   ```sh
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+7. Run the server, and open the link mentioned on console to use the application
+   ```sh
+   python manage.py runserver 
+   ```
 
-We at Stark101 sincerely hope to implement this solution because this methodology can bring about quick relief where every minute is precious.
+## Usage
 
-YouTube: https://www.youtube.com/watch?v=2GOf97N8iLM&t=34s
+All the functionality provided, that runs on uploaded videos is meant to serve as a proxy, and would have actually run on a live security camera feed.
 
-To run: python3 frontend.py
+#### To Monitor movement of animals known to react before earthquakes
 
-Note -> A additional file credentials.py has to be created by the person using this program,wherein the details of the access of the access 
-Username, Password, Database name, driver and server name has to be provided. We are not providing our own details for security reasons. 
+Since in most cases of animals being monitored in a controlled environment, the number of such animals appearing in a camera frame is pretty constant. The entry and exit of any moving object is tracked, and severe anomalies are used as indications for a impending disaster.
+<img src = "Images/entry_exit.png" />
+   
+#### To detect disturbances in videos
+
+In almost every video, a static object can always be found, examples of 
+which are poles, roads and traffic lights. However, if the position of such 
+static objects change, it signals that either someone/something is tampering
+with the feed, and we issue a warning on detecting such occurences.
+
+<img src = "Images/direct_disturbance.png"/>
+
+
+#### View of the Overall Page
+
+<img src = "Images/overall.png"/>
+
+
+#### Example of a Disaster Ping
+
+<img src = ""/>
+
+#### History of all Videos Analyzed
+
+<img src = ""/>
