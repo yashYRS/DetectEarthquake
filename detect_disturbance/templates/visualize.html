@@ -12,24 +12,23 @@
 <body>
     <nav>
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo">UPLOAD HISTORY</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <a href="#" class="right brand-logo">UPLOAD HISTORY</a>
+            <ul id="nav-mobile" class="center hide-on-med-and-down">
                 <li><a href="../../admin">Admin</a></li>
                 <li><a href="#">Visualize</a></li>
                 <li><a href="../">Analyze</a></li>
             </ul>
         </div>
     </nav>
-	<div>
-
 	{% for curr_video in videos %}
-		<video width="500" height="500" controls="controls" >
-			<source src={{curr_video.video.url}} type="video/mp4">
+        <div class="center column">
+		  <h6>  <b>{{curr_video.title}} </b> Analyzed at - <b>{{curr_video.store_time}}</b></h6>
+            <video width="500" height="300" controls="controls" >
+    			<source src={{curr_video.video.url}} type="video/mp4">
 		</video>
-		<h5>{{curr_video.title}}</h5>
+	   </div>
 	{% endfor %}
 
-	</div>
 
 </body>
 </html>

@@ -68,4 +68,4 @@ with the feed, and we issue a warning on detecting such occurences.
 
 #### History of all Videos Analyzed
 
-<img src = ""/>
+<img src = "Images/video_library.png"/>

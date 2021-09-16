@@ -107,7 +107,8 @@ def detect_discrepancy(request, sensitivity=50):
             pass
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
-    cv2.destroyAllWindows()
+
+    cv2.destroyWindow(title)
 
 
 def monitor_frame_presence(request, webcam=False, min_area=1500):
@@ -196,4 +197,4 @@ def monitor_frame_presence(request, webcam=False, min_area=1500):
         prev_status = occupied
 
     # cleanup the camera and close any open windows
-    cv2.destroyAllWindows()
+    cv2.destroyWindow(title)
