@@ -1,19 +1,21 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.contrib import messages
 
 from .models import Videos
 
 
-def save_uploaded_video(post_request):
-    curr_title = post_request['title']
-    curr_video = post_request['video']
-    if curr_video:
+def save_uploaded_video(request):
+    curr_title = request.POST['title']
+    curr_video = request.POST['video']
+    if curr_video and curr_title:
         content = Videos(title=curr_title,
                          video=curr_video)
         content.save()
+        messages.success(request, f"Video Saved: {curr_title}")
     else:
         # Enter Message box, showing that no video has been chosen
-        pass
+        messages.error(request, f"Error while saving video")
 
 
 def index(request):
@@ -21,19 +23,16 @@ def index(request):
     print(" I monitored something ")
     if request.method == 'POST':
         if 'bg_video' in request.POST:
-            print('Disturbance analyzed')
-            save_uploaded_video(request.POST)
+            save_uploaded_video(request)
             # Call function to analyze video
 
         elif 'animal_video' in request.POST:
-            print('Entry exit analyzed')
-            save_uploaded_video(request.POST)
+            save_uploaded_video(request)
             # Call function to monitor entry and exit in video
 
         elif 'animal_webcam' in request.POST:
-            print('Web cam to be opened')
             # Call function to open webcam and analyze entry and exit
-
+            pass
     return render(request, 'monitor.html', context)
 
 
