@@ -12,7 +12,7 @@
 <body>
     <nav>
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo">Logo</a>
+            <a href="#" class="brand-logo">Earthquake Detection Prototype</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="../admin">Admin</a></li>
                 <li><a href="visualize">Visualize</a></li>
@@ -33,17 +33,10 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8  offset-lg-2">
-            <h5 class="mt-5">Earthquake detection system</h5>
-        </div>
-    </div>
-</div>
     <div class="row">
         <div class="col s10 m5">
             <div class="card blue-grey darken-1">
-                <form action="" method="POST">{% csrf_token %}
+                <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
                 <div class="card-content white-text">
                     <span class="card-title"><b>Detect Disturbance in Feed</b></span>
                     <p> In almost every video, a static object can always be found, examples of 
@@ -68,7 +61,7 @@
     <div class="row">
         <div class="col s10 m5">
             <div class="card blue-grey darken-1">
-                <form action="" method="POST">{% csrf_token %}
+                <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
                 <div class="card-content white-text">
                     <span class="card-title"><b>Record Animal Entry & Exit</b></span>
                     <p>It has been theorized that animals get very restless, when they sense an

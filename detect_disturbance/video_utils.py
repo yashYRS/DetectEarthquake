@@ -2,10 +2,13 @@ import cv2
 import imutils
 import datetime
 import numpy as np
+from pathlib import Path
 
 
+from django.conf import settings
 from django.contrib import messages
-from .models import FramePresence
+from django.utils import timezone
+from .models import FramePresence, Videos
 
 
 def draw_lines(img, lines):
@@ -53,11 +56,15 @@ def detect_discrepancy(request, sensitivity=50):
         sensitivity (int, optional): After which lines are said to differ
 
     """
-    title = request.POST['title']
-    video = request.POST['video']
+    video_obj = Videos.objects.latest('store_time')
+    title = video_obj.title
+    base_dir = Path(settings.BASE_DIR)
+    video_path = Path(video_obj.video.url)
+    file_name = str(base_dir / video_path.relative_to(video_path.anchor))
+    print(file_name, "File location", title, " Title")
 
     frame_no, ave_same, ave_list = 0, 0, list()
-    cap = cv2.VideoCapture(video)
+    cap = cv2.VideoCapture(file_name)
 
     while True:
 
@@ -65,7 +72,7 @@ def detect_discrepancy(request, sensitivity=50):
         frame_no = frame_no + 1
         if not ret or frame is None:
             break
-
+        cv2.imshow(title, frame)
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
         # detecting white lanes of a road ....
@@ -98,21 +105,24 @@ def detect_discrepancy(request, sensitivity=50):
         #     print(ave_same)
         except Exception as e:
             pass
-        cv2.imshow(title, frame)
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
     cv2.destroyAllWindows()
 
 
-def monitor_frame_presence(request, webcam=False, min_area=500):
+def monitor_frame_presence(request, webcam=False, min_area=1500):
     # Monitor the webcam / the video entered
     if webcam:
         vs = cv2.VideoCapture(0)
         title = "Webcam"
     else:
-        video = request.POST['video']
-        title = request.POST['title']
-        vs = cv2.VideoCapture(video)
+        video_obj = Videos.objects.latest('store_time')
+        title = video_obj.title
+        base_dir = Path(settings.BASE_DIR)
+        video_path = Path(video_obj.video.url)
+        file_name = str(base_dir / video_path.relative_to(video_path.anchor))
+        print(file_name, "File location", title, " Title")
+        vs = cv2.VideoCapture(file_name)
 
     # initialize the first frame in the video stream
     first_frame, prev_status = None, 0
@@ -143,48 +153,44 @@ def monitor_frame_presence(request, webcam=False, min_area=500):
         thresh = cv2.dilate(thresh, None, iterations=2)
         # find contours on thresholded image
         cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
-                                cv2.CHAIN_APPROX_SIMPLE)
-        cnts = cnts[0] if imutils.is_cv2() else cnts[1]
+                                cv2.CHAIN_APPROX_SIMPLE)[0]
 
         # loop over the contours
-        try:
-            for c in cnts:
-                # if the contour is too small, ignore it
-                if cv2.contourArea(c) < min_area:
-                    continue
-                # Contour big enough, hence something is occupying the frame
-                if occupied == 0:
-                    occupied = 1
-                # compute the bounding box for the contour
-                (x, y, w, h) = cv2.boundingRect(c)
-                # draw it on the frame, and update the text
-                cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                text = "Occupied"
+        for c in cnts:
+            # if the contour is too small, ignore it
+            if cv2.contourArea(c) < min_area:
+                continue
+            # Contour big enough, hence something is occupying the frame
+            if occupied == 0:
+                occupied = 1
+            # compute the bounding box for the contour
+            (x, y, w, h) = cv2.boundingRect(c)
+            # draw it on the frame, and update the text
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            text = "Occupied"
 
-            # draw the text and timestamp on the frame
-            cv2.putText(frame, "Room Status: {}".format(text), (10, 20),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-            cv2.putText(frame,
-                        datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
-                        (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX,
-                        0.35, (0, 0, 255), 1)
+        # draw the text and timestamp on the frame
+        cv2.putText(frame, "Room Status: {}".format(text), (10, 20),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+        cv2.putText(frame,
+                    datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
+                    (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX,
+                    0.35, (0, 0, 255), 1)
 
-            # show the frame and record if the user presses a key
-            cv2.imshow(title, frame)
+        # show the frame and record if the user presses a key
+        cv2.imshow(title, frame)
 
-            # if the `q` key is pressed, break from the lop
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                break
-        except Exception as e:
-            print(e)
+        # if the `q` key is pressed, break from the lop
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
 
         if prev_status != occupied:
             if occupied == 0:
-                exit_time = datetime.datetime.now()
+                exit_time = datetime.datetime.now(tz=timezone.utc)
                 print("frame exit: ", exit_time)
                 save_entry_exit(request, entry_time, exit_time)
             else:
-                entry_time = datetime.datetime.now()
+                entry_time = datetime.datetime.now(tz=timezone.utc)
                 print("frame entry: ", entry_time)
         # prev_status of frames updated
         prev_status = occupied

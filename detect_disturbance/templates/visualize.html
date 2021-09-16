@@ -12,7 +12,7 @@
 <body>
     <nav>
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo">Logo</a>
+            <a href="#" class="brand-logo">UPLOAD HISTORY</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="../../admin">Admin</a></li>
                 <li><a href="#">Visualize</a></li>
@@ -20,20 +20,13 @@
             </ul>
         </div>
     </nav>
-	<div class="container">
-	    <div class="row">
-	        <div class="col-lg-8  offset-lg-2">
-	            <h5 class="mt-5">Upload History</h5>
-	        </div>
-	    </div>
-	</div>
 	<div>
 
-	{% for video in videos %}
-	<video width="500" height="500" controls >
-	<source src="{{video.video.url}}" type="video/mp4">
-	<b>{{video.title}}</b>
-	</video>
+	{% for curr_video in videos %}
+		<video width="500" height="500" controls="controls" >
+			<source src={{curr_video.video.url}} type="video/mp4">
+		</video>
+		<h5>{{curr_video.title}}</h5>
 	{% endfor %}
 
 	</div>

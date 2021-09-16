@@ -9,7 +9,8 @@ class FramePresence(models.Model):
 
 class Videos(models.Model):
     title = models.CharField(max_length=100)
-    video = models.FileField(upload_to='videos/')
+    video = models.FileField(upload_to='detect_disturbance/')
+    store_time = models.DateTimeField("Storage Time")
 
     class Meta:
         verbose_name = 'video'
